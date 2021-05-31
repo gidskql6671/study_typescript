@@ -1,14 +1,18 @@
 import express, { Request, Response } from "express";
 
 class App {
-	public application: express.Application;
+	private application: express.Application;
 	
 	constructor(){
 		this.application = express();
 	}
+	
+	public getApplication(): express.Application{
+		return this.application;
+	}
 }
 
-const app = new App().application;
+const app = new App().getApplication();
 
 app.get("/", (req: Request, res: Response) => {
 	res.send("start");
