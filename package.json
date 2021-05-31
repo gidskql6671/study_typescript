@@ -1,0 +1,8 @@
+{
+  "name": "study_typescript",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/gidskql6671/study_typescript.git",
+  "author": "김동환 <gidskql6671@gmail.com>",
+  "license": "MIT"
+}
