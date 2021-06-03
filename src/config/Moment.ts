@@ -3,7 +3,7 @@ import 'moment-timezone';
 
 
 interface Moment {
-	getTimestamp(): string;
+	getTimeStamp(): string;
 }
 
 class MomentImpl implements Moment{
@@ -11,7 +11,7 @@ class MomentImpl implements Moment{
 		moment.tz.setDefault('Asia/Seoul');
 	}
 	
-	getTimestamp(): string{
+	getTimeStamp(): string{
 		return moment().format('YYYY-MM-DD HH:mm:ss');
 	}
 }

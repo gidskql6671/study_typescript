@@ -7,5 +7,5 @@ const moment = new Moment();
 
 app.listen(port, () => {
 	console.log(`Server listening on port ${port}`);
-	console.log(`Current : ${moment.getTimestamp()}`);
+	console.log(`Current : ${moment.getTimeStamp()}`);
 });
