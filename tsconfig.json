@@ -3,10 +3,14 @@
 		"target": "es5",
 		"module": "commonjs",
 		"moduleResolution": "node",
-		"outDir": "./dist",
+		"outDir": "dist",
 		"strict": true,
 		"esModuleInterop": true
 	},
-	"exclude": ["node_modules"],
-	"include": ["src/**/*"]
+	"exclude": [
+		"node_modules"
+	],
+	"include": [
+		"src"
+	]
 }
