@@ -1,21 +1,11 @@
-import express, { Request, Response } from "express";
-
-class App {
-	private application: express.Application;
-	
-	constructor(){
-		this.application = express();
-	}
-	
-	public getApplication(): express.Application{
-		return this.application;
-	}
-}
+import App from './App';
+import Moment from './config/Moment';
 
 const app = new App().getApplication();
+const port = 80;
+const moment = new Moment();
 
-app.get("/", (req: Request, res: Response) => {
-	res.send("start");
-})
-
-app.listen(80, () => console.log("start"));
+app.listen(port, () => {
+	console.log(`Server listening on port ${port}`);
+	console.log(`Current : ${moment.getTimestamp()}`);
+});
