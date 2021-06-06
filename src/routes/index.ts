@@ -1,1 +1,1 @@
-export * from './home.ts';
+export {default as homeRouter} from './home';

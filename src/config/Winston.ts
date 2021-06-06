@@ -102,6 +102,16 @@ class logger_base {
 		const finalMessage: string = this.createFinalMessage(logString);
 		this.writer.info(finalMessage);
 	}
+	public error(...args: any[]){
+		const logString: string = this.getLogString(args);
+		const finalMessage: string = this.createFinalMessage(logString);
+		this.writer.error(finalMessage);
+	}
+	public debug(...args: any[]){
+		const logString: string = this.getLogString(args);
+		const finalMessage: string = this.createFinalMessage(logString);
+		this.writer.debug(finalMessage);
+	}
 	
 	private getLogString(args: any[]): string{
 		let resultStr: string = '';
