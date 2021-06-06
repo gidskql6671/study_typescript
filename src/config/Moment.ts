@@ -7,13 +7,20 @@ interface Moment {
 }
 
 class MomentImpl implements Moment{
-	constructor(){
+	private outFormat: string;
+	
+	constructor(format: string){
 		moment.tz.setDefault('Asia/Seoul');
+		this.outFormat = format;
 	}
 	
 	getTimeStamp(): string{
-		return moment().format('YYYY-MM-DD HH:mm:ss');
+		return moment().format(this.outFormat);
 	}
 }
 
-export default MomentImpl;
+const momentImpl: Moment = new MomentImpl('YYYY-MM-DD HH:mm:ss')
+
+
+export { Moment };
+export default momentImpl;

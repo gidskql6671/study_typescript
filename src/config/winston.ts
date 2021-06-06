@@ -2,7 +2,7 @@ import winston from 'winston';
 import winstonDaily from 'winston-daily-rotate-file';
 import fs from 'fs';
 import path from 'path';
-import { Moment, MomentImpl } from './Moment';
+import momentObj, { Moment } from './Moment';
 
 
 // logs 디렉토리 하위에 로그파일을 저장
@@ -26,7 +26,7 @@ class logger_base {
 	
 	
 	private readonly writer: winston.Logger;
-	private readonly moment: Moment;
+	private readonly moment: Moment = momentObj;
 	private logFormat: any;
 	
 	
@@ -35,7 +35,6 @@ class logger_base {
 			this.makeLoggerFolder();
 		}
 		
-		this.moment = new MomentImpl('YYYY-MM-DD HH:mm:ss');
 		this.writer = this.getLogger();
 	}
 	
