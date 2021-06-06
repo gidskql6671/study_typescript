@@ -1,5 +1,5 @@
 import App from './App';
-import logger from './config/winston';
+import logger from './config/Winston';
 
 
 const app = new App().getApplication();
