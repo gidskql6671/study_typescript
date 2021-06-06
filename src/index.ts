@@ -1,16 +1,14 @@
 import App from './App';
-import Moment from './config/Moment';
+import { Moment, MomentImpl} from './config/Moment';
 import logger from './config/winston';
 
 
 const app = new App().getApplication();
-const port = 80;
-const moment = new Moment();
+const port: number = 80;
+const moment: Moment = new MomentImpl('YYYY-MM-DD HH:mm:ss');
 
 app.listen(port, () => {
-	console.log(`Server listening on port ${port}`);
-	console.log(`Current : ${moment.getTimeStamp()}`);
+	logger.info(`Server listening on Port ${port}`);
 	
-	logger.info("asd");
-	logger.error("asd");
+	
 });

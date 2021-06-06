@@ -1,70 +1,171 @@
-import {createLogger, format, transports, info} from 'winston';
+import winston from 'winston';
 import winstonDaily from 'winston-daily-rotate-file';
 import fs from 'fs';
 import path from 'path';
-import Moment from './Moment';
+import { Moment, MomentImpl } from './Moment';
 
-
-const moment = new Moment();
 
 // logs 디렉토리 하위에 로그파일을 저장
 const logDir = 'logs';
-const { combine, printf } = format;
-
-
-// Define log format
-const logFormat = printf(info => {
-	return `${moment.getTimeStamp()} ${info.level} ${info.message}`;
-});
-
-
-// 로그 정보를 저장할 파일 설정
-
+const { combine, printf } = winston.format;
 
 
 /*
  * Log Level
  * error: 0, warn: 1, info: 2, http: 3, verbose: 4, debug: 5, silly: 6
  */
-if (!fs.existsSync(logDir)){
-	fs.mkdirSync(logDir);
-}
 
 
-const logger = createLogger({
-	format: combine(logFormat),
-	transports: [
-		// info 레벨 로그를 저장할 파일 선택
-		new winstonDaily({
-			level: 'info',
-			dirname: logDir,
-			filename: '%DATE%.log',
-			datePattern: 'YYYY-MM-DD',
-			zippedArchive: true,
-			maxFiles: '7d'
-		}),
-		// error 레벨 로그를 저장할 파일 선택
-		new winstonDaily({
-			level: 'error',
-			dirname: path.join(logDir, 'error'),
-			filename: '%DATE%.error.log',
-			datePattern: 'YYYY-MM-DD',
-			zippedArchive: true,
-			maxFiles: '7d'
-		}),
+class logger_base {
+	public static readonly MAX_FILES_SIZE: number = 1024 * 1024 * 1024; // 100MB
+	public static readonly MAX_NUM_FILES: number = 100; // 로그파일 최대 100개
+	public static readonly LOG_DIR: string = 'logs';
+	public static readonly PRJ_ROOT_PATH: string = path.join(__dirname, '..');
+	// 파일 이름만 출력할 경우 false, 경로까지 출력할 경우 true
+	public static readonly USE_RELATIVE_PATH: boolean = false;
+	
+	
+	private readonly writer: winston.Logger;
+	private readonly moment: Moment;
+	private logFormat: any;
+	
+	
+	constructor(){
+		if (!fs.existsSync(logger_base.LOG_DIR)){
+			this.makeLoggerFolder();
+		}
 		
-	]
-});
-
-
-// Production 환경이 아닌 경우
-if (process.env.NODE_ENV !== 'production'){
-	logger.add(new transports.Console({
-		format: combine(
-			format.colorize(), // 색깔 넣어서 출력
-			format.simple(), // `${info.level}: ${info.message} JSON.stringify({ ...rest })` 포맷으로 출력
-		)
-	}))
+		this.moment = new MomentImpl('YYYY-MM-DD HH:mm:ss');
+		this.writer = this.getLogger();
+	}
+	
+	private makeLoggerFolder(){
+		fs.mkdirSync(logger_base.LOG_DIR);
+	}
+	
+	private getLogger(){
+		if (this.writer != undefined)
+			return this.writer;
+		
+		this.setLogFormat();
+		
+		const logger = winston.createLogger({
+			format: combine(this.logFormat),
+			transports: [
+				// info 레벨 로그를 저장할 파일 선택
+				new winstonDaily({
+					level: 'info',
+					dirname: logger_base.LOG_DIR,
+					filename: '%DATE%.log',
+					datePattern: 'YYYY-MM-DD',
+					zippedArchive: true,
+					maxFiles: '7d'
+				}),
+				// error 레벨 로그를 저장할 파일 선택
+				new winstonDaily({
+					level: 'error',
+					dirname: path.join(logger_base.LOG_DIR, 'error'),
+					filename: '%DATE%.error.log',
+					datePattern: 'YYYY-MM-DD',
+					zippedArchive: true,
+					maxFiles: '7d'
+				}),
+			]
+		});
+		
+		// Production 환경이 아닌 경우
+		if (process.env.NODE_ENV !== 'production'){
+			// 콘솔로 바로 출력하도록 지정.
+			logger.add(new winston.transports.Console({
+				format: combine(
+					winston.format.colorize(), // 색깔 넣어서 출력
+					winston.format.simple(), // `${info.level}: ${info.message} JSON.stringify({ ...rest })` 포맷으로 출력
+				)
+			}))
+		};
+		
+		return logger;
+	}
+	
+	private setLogFormat(){
+		this.logFormat = printf(info => {
+			return `${this.getTimeStamp()} ${info.level} ${info.message}`;
+		});
+	}
+	
+	private getTimeStamp(): string {
+		return this.moment.getTimeStamp();
+	}
+	
+	
+	public info(...args: any[]){
+		const logString: string = this.getLogString(args);
+		const finalMessage: string = this.createFinalMessage(logString);
+		this.writer.info(finalMessage);
+	}
+	
+	private getLogString(args: any[]): string{
+		let resultStr: string = '';
+		
+		for(let i = 1; i < args.length; i++){
+			// args[i]가 객체 타입인 경우
+			if (typeof(args[i]) === 'object'){
+				resultStr += JSON.stringify(args[i]) + '\t';
+			}
+			else{
+				resultStr += args[i] + '\t';
+			}
+		}
+		
+		return args[0] + '\t' + resultStr;
+	}
+	
+	private createFinalMessage(message: string){
+		let stackInfo = this.getStackInfo(1);
+		
+		let filenameInfo: string;
+		if (logger_base.USE_RELATIVE_PATH)
+			filenameInfo = stackInfo?.relativePath as string;
+		else
+			filenameInfo = stackInfo?.file as string;
+			
+		let finalMessage: string = `[${filenameInfo}:${stackInfo?.line}] ${message}`;
+		
+		return finalMessage;
+	}
+	
+	
+	private getStackInfo(stackIndex: number){
+		// get call stack, and analyze it
+		// get all file, method, and line numbers
+		let stackList = (new Error(undefined)).stack?.split('\n').slice(3);
+		
+		// stack trace format
+		// http://code.google.com/p/v8/wiki/JavaScriptStackTraceApi
+		// do not remove the regex expresses to outside of this method (due to a BUG in node.js)
+		let stackReg = /at\s+(.*)\s+\((.*):(\d*):(\d*)\)/gi
+		let stackReg2 = /at\s+()(.*):(\d*):(\d*)/gi;
+		
+		let s = stackList?.[stackIndex] || stackList?.[0];
+		if (s === undefined){
+			throw new Error();
+		}
+		s = s.toString();
+		let sp = stackReg.exec(s) || stackReg2.exec(s);
+		
+		if (sp && sp.length === 5){
+			return {
+				method: sp[1],
+				relativePath: path.relative(logger_base.PRJ_ROOT_PATH, sp[2]),
+				line: sp[3],
+				pos: sp[4],
+				file: path.basename(sp[2]),
+				stack: stackList?.join('\n')
+			}
+		}
+	}
 }
 
-export default logger;
+const loggerBase: logger_base = new logger_base();
+
+export default loggerBase;
