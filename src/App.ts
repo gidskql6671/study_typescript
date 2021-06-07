@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { logger } from "./config";
+import { logger } from "./configs";
 import { homeRouter, boardRouter } from "./routes";
 
 class App {

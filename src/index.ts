@@ -1,5 +1,5 @@
 import App from './App';
-import { logger, moment } from './config';
+import { logger } from './configs';
 
 
 const app = new App().getApplication();
