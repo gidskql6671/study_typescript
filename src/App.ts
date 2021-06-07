@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { logger } from "./config";
-import { homeRouter } from "./routes";
+import { homeRouter, boardRouter } from "./routes";
 
 class App {
 	private app: express.Application;
@@ -22,14 +22,8 @@ class App {
 	}
 	
 	private router(): void {
-		const router: express.Router = express.Router();
-		
-		router.get('/', (req: Request, res: Response) => {
-			res.send("start");
-		})
-		
-		this.app.use('/home', homeRouter);
-		this.app.use(router);
+		this.app.use('/', homeRouter);
+		this.app.use('/board', homeRouter);
 	}
 	
 	public getApplication(): express.Application{
