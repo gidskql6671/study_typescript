@@ -13,8 +13,8 @@ class App {
 	}
 	
 	private router(): void {
-		this.app.use('/', homeRouter);
 		this.app.use('/board', homeRouter);
+		this.app.use('/', homeRouter);
 	}
 	
 	private setErrorHandler(){
