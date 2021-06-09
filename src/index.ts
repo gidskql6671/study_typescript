@@ -1,4 +1,4 @@
-import App from './App';
+import App from './app';
 import { logger } from './configs';
 import { getDbLink, getServerPort } from "./properties";
 import mongoose from 'mongoose';

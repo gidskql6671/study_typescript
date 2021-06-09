@@ -2,7 +2,7 @@ import winston from 'winston';
 import winstonDaily from 'winston-daily-rotate-file';
 import fs from 'fs';
 import path from 'path';
-import momentObj, { Moment } from './Moment';
+import { moment as momentObj, Moment } from '.';
 
 
 // logs 디렉토리 하위에 로그파일을 저장

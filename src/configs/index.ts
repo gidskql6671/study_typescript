@@ -1,2 +1,2 @@
-export {default as moment, Moment} from './Moment';
-export {default as logger} from './Winston';
+export {default as moment, Moment} from './moment';
+export {default as logger} from './winston';
