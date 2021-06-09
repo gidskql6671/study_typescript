@@ -1,0 +1,5 @@
+# database url
+database.url = {mongodb_url}
+
+# server port
+server.port = {server_port}
