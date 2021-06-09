@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import { logger } from "./configs";
-import { homeRouter, boardRouter } from "./routes";
+import { homeRouter, postRouter } from "./routes";
 
 class App {
 	private app: express.Application;
@@ -14,7 +14,7 @@ class App {
 	
 	private router(): void {
 		this.app.use('/', homeRouter);
-		this.app.use('/board', boardRouter);
+		this.app.use('/post', postRouter);
 	}
 	
 	private setErrorHandler(){
