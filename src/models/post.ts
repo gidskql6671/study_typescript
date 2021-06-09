@@ -18,7 +18,7 @@ interface IPostDoc extends IPost, Document {
 	
 }
 
-const postSchema :Schem = new Schema({
+const postSchema :Schema = new Schema({
 	id: {
 		type: Number,
 		required: true,
