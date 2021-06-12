@@ -1,5 +1,4 @@
 import { Post, IPost } from '../models';
-import { moment } from '../configs';
 
 
 const createPost = ( post_info ) => {
@@ -7,7 +6,6 @@ const createPost = ( post_info ) => {
 		post_info.tags = post_info.tags.split(',').map(item => item.trim());
 		
 		const newPost = {
-			reg_dt: moment.getTimeStamp(),
 			...post_info
 		};
 		
