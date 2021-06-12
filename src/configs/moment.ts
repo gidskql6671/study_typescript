@@ -22,5 +22,4 @@ class MomentImpl implements Moment{
 const momentImpl: Moment = new MomentImpl('YYYY-MM-DD HH:mm:ss')
 
 
-export { Moment };
-export default momentImpl;
+export { momentImpl as moment, Moment };
