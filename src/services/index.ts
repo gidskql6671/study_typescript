@@ -1,1 +1,1 @@
-export * from './postService';
+export { default as postService } from './postService';
