@@ -1,5 +1,6 @@
 import mongoose, { Schema, Model } from "mongoose";
 import autoIncrement from 'mongoose-auto-increment';
+import { moment } from '../configs';
 
 autoIncrement.initialize(mongoose.connection);
 
@@ -47,7 +48,8 @@ const postSchema :Schema = new Schema({
 		required: true
 	},
 	reg_dt: {
-		type: String
+		type: String,
+		default: moment.getTimeStamp()
 	}
 }, {
 	versionKey: false
