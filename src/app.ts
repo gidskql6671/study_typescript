@@ -1,20 +1,58 @@
 import express, { Request, Response, NextFunction } from "express";
-import { logger } from "./configs";
-import { homeRouter, postRouter } from "./routes";
+import { logger, passportConfig } from "./configs";
+import { homeRouter, postRouter, userRouter } from "./routes";
+import expressEjsLayouts from 'express-ejs-layouts';
+import path from 'path';
+import methodOverride from 'method-override';
+import session from 'express-session';
+import passport from 'passport';
 
 class App {
 	private app: express.Application;
 	
 	constructor(){
 		this.app = express();
-		this.router();
+		this.setMiddleWares();
+		this.setRouter();
 		this.setErrorHandler();
 		
 	}
 	
-	private router(): void {
+	private setMiddleWares(){
+		// view 관련
+		this.app.set('views', path.join(__dirname, 'views'));
+		this.app.set('view engine', 'ejs'); 
+		this.app.use(expressEjsLayouts);
+		this.app.set('layout', 'layouts/layout');
+		this.app.set("layout extractScripts", true);
+		this.app.set("layout extractStyles", true);
+		
+		// bodyparser 세팅
+		this.app.use(express.json());
+		this.app.use(express.urlencoded({extended: true}));
+		
+		// methodOverride 설정
+		this.app.use(methodOverride('_method'));
+		
+		// session 설정
+		this.app.use(session({secret:'MySecret', resave:false, saveUninitialized:true}));
+		
+		// passport 설정.
+		passportConfig.init();
+		this.app.use(passport.initialize());
+		this.app.use(passport.session());
+		
+		this.app.use((req, res, next) => {
+			res.locals.isAuthenticated = req.isAuthenticated(); 
+			res.locals.currentUser = req.user;
+			next();
+		})
+	}
+	
+	private setRouter() {
 		this.app.use('/', homeRouter);
 		this.app.use('/post', postRouter);
+		this.app.use('/user', userRouter);
 	}
 	
 	private setErrorHandler(){
