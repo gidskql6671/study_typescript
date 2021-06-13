@@ -48,6 +48,8 @@ class logger_base {
 		
 		this.setLogFormat();
 		
+
+		
 		const logger = winston.createLogger({
 			format: combine(this.logFormat),
 			transports: [
@@ -58,7 +60,7 @@ class logger_base {
 					filename: '%DATE%.log',
 					datePattern: 'YYYY-MM-DD',
 					zippedArchive: true,
-					maxFiles: '7d'
+					maxFiles: '1d'
 				}),
 				// error 레벨 로그를 저장할 파일 선택
 				new winstonDaily({
@@ -67,7 +69,7 @@ class logger_base {
 					filename: '%DATE%.error.log',
 					datePattern: 'YYYY-MM-DD',
 					zippedArchive: true,
-					maxFiles: '7d'
+					maxFiles: '1d'
 				}),
 			]
 		});
@@ -116,7 +118,7 @@ class logger_base {
 	private getLogString(args: any[]): string{
 		let resultStr: string = '';
 		
-		for(let i = 1; i < args.length; i++){
+		for(let i = 0; i < args.length; i++){
 			// args[i]가 객체 타입인 경우
 			if (typeof(args[i]) === 'object'){
 				resultStr += JSON.stringify(args[i]) + '\t';
@@ -126,7 +128,7 @@ class logger_base {
 			}
 		}
 		
-		return args[0] + '\t' + resultStr;
+		return resultStr;
 	}
 	
 	private createFinalMessage(message: string){
