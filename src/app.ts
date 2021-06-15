@@ -31,6 +31,9 @@ class App {
 		this.app.use(express.json());
 		this.app.use(express.urlencoded({extended: true}));
 		
+		// static 파일 설정
+		this.app.use('/static', express.static( path.join(__dirname, '..', 'public')));
+		
 		// methodOverride 설정
 		this.app.use(methodOverride('_method'));
 		
