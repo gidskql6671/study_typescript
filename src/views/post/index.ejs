@@ -1,3 +1,7 @@
+<link rel="stylesheet" type="text/css" href="/static/css/post/style.css">
+<link rel="stylesheet" type="text/css" href="/static/css/post/index.css">
+
+
 <h2 class="box-content">
 	게시물 목록
 </h2>
@@ -15,14 +19,14 @@
 	</div>
 	<div>
 		<button onclick="location.href='/post/write'" class="btn">글작성</button>
-		<ul class="board-container-content">
+		<ul class="post-container-content">
 		<% for(let i = 0; i < posts.length; i++){ %>
 			<a href="/post/<%= posts[i]._id %>">
-				<li class="board-index-container-post"> 
+				<li class="post-index-container-post"> 
 					<h3> Title: <%= posts[i].title %> </h3>
-					<div class="board-index-container-meta" >
+					<div class="post-index-container-meta" >
 						<p> 작성시간 : <%= posts[i].reg_dt %> </p>
-						<div class="board-container-tag">
+						<div class="post-container-tag">
 							<p> 태그 : </p>
 							<% posts[i].tags.forEach((el, index) =>{ %>
 								<% if (index < 3) {%>
@@ -34,7 +38,7 @@
 						</div>
 						<p> 작성자 : <%= posts[i].reg_name %> </p>
 					</div>
-					<div class="board-content-post" >
+					<div class="post-content-post" >
 						<p> <%= posts[i].content %> </p>
 					</div>
 				</li>
