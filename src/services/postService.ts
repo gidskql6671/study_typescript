@@ -34,6 +34,19 @@ class PostService implements IPostService{
 			.catch(err => reject(err));
 		});
 	}
+	
+	public deletePost = ( post_info ) => {
+		return new Promise((resolve, reject) => {
+			Post.deleteMany(post_info).exec()
+			.then(({ deleteCount }) => {
+				resolve(deleteCount);
+			})
+			.catch(err => {
+				logger.error(err);
+				reject(err);
+			})
+		})
+	}
 }
 
 const postService = new PostService();
