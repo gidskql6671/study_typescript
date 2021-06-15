@@ -7,7 +7,7 @@ const router: express.Router = express.Router();
 
 
 router.get('/', (req: express.Request, res: express.Response) => {
-	logger.info("GET: ", req.path);
+	logger.info("GET:", req.path);
 	
 	postService.getPost({})
 	.then(posts => res.render('post/index', { posts }))
@@ -15,7 +15,7 @@ router.get('/', (req: express.Request, res: express.Response) => {
 })
 
 router.get('/write', (req: express.Request, res: express.Response) => {
-	logger.info("GET: ", req.path);
+	logger.info("GET:", req.path);
 	
 	res.render('post/write');
 })
