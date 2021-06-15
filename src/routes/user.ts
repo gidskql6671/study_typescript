@@ -6,6 +6,8 @@ const router: express.Router = express.Router();
 
 router.get('/', (req: express.Request, res: express.Response) => {
 	logger.info("User Router");
+	
+	res.render('user/index');
 })
 
 
