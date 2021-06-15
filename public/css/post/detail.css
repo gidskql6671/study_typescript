@@ -1,5 +1,5 @@
 
-.board-detail-container-meta{
+.post-detail-container-meta{
 	display: grid;
 	
 	grid-template-areas:
@@ -12,22 +12,22 @@
 	margin-bottom: 20px;
 }
 
-.board-detail-post-title{
+.post-detail-post-title{
 	text-align: center;
 	grid-area: title;
 	margin-top: 10px;
 }
-.board-detail-post-regid{
+.post-detail-post-regid{
 	grid-area: regid;
 }
-.board-detail-container-tag{
+.post-detail-container-tag{
 	grid-area: tag;
 }
-.board-detail-post-regdt{
+.post-detail-post-regdt{
 	grid-area: regdt;
 }
 
-.board-detail-container-controller{
+.post-detail-container-controller{
 	display: flex; 
 	justify-content: space-between;
 	padding: 0px 10px;

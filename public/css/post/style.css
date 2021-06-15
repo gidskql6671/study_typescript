@@ -1,24 +1,24 @@
-.board-container-content{
+.post-container-content{
 	margin: 20px auto;
 	width: 100%;
 	padding: 0px;
 }
-.board-content-post{
+.post-content-post{
 	border: 2px solid black; 
 	border-radius: 10px; 
 	padding: 10px 20px;
 	margin-bottom: 10px;
 }
-.board-container-tag{
+.post-container-tag{
 	display: flex;
 	flex-wrap: wrap;
 	width: 600px;
 	align-items: center;
 }
-.board-container-tag > p{
+.post-container-tag > p{
 	margin-right: 10px;
 }
-.board-container-tag > div{
+.post-container-tag > div{
 	border: 2px solid black; 
 	border-radius: 5px;
 	padding: 2px 8px;

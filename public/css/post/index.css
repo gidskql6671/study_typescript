@@ -1,4 +1,4 @@
-.board-index-container-error{
+.post-index-container-error{
 	text-align: center;
 	border: 3px solid red;
 	border-radius: 10px;
@@ -6,7 +6,7 @@
 	margin-bottom: 10px;
 }
 
-.board-index-container-post{
+.post-index-container-post{
 	list-style: none;
 	width: 100%;
 	border: 2px solid gray;
@@ -15,12 +15,12 @@
 	margin-top: 5px;
 	box-sizing: border-box;
 }
-.board-index-container-post > h3{
+.post-index-container-post > h3{
 	margin: 0 0 5px 0;
 	border-bottom: 2px solid blueviolet;
 }
 
-.board-index-container-meta{
+.post-index-container-meta{
 	display: flex;
 	justify-content: space-between;
 	padding: 5px 20px;
