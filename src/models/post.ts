@@ -52,9 +52,7 @@ const postSchema :Schema = new Schema({
 
 postSchema.plugin(autoIncrement.plugin, {
 	model: 'tsStudyPost',
-	filed: 'id',
-	startAt: 1,
-	increment: 1
+	field: 'id'
 });
 
 const Post = mongoose.model<IPostDoc>('tsStudyPost', postSchema);
