@@ -1,4 +1,5 @@
 import { Post, IPost } from '../models';
+import { logger } from '../configs';
 
 
 interface IPostService{
@@ -18,7 +19,10 @@ class PostService implements IPostService{
 
 			Post.create(newPost)
 			.then(data => resolve(data))
-			.catch(err => reject(err));
+			.catch(err => {
+				logger.error(err);
+				reject(err)
+			});
 		});
 	}
 
