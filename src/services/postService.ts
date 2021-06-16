@@ -5,6 +5,7 @@ import { logger } from '../configs';
 interface IPostService{
 	createPost: (IPost) => Promise<any>;
 	getPost: (IPost) => Promise<any>;
+	deletePost: (IPost) => Promise<any>;
 }
 
 class PostService implements IPostService{
