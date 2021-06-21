@@ -39,8 +39,8 @@ class PostService implements IPostService{
 	public deletePost = ( post_info ) => {
 		return new Promise((resolve, reject) => {
 			Post.deleteMany(post_info).exec()
-			.then(({ deleteCount }) => {
-				resolve(deleteCount);
+			.then(({ deletedCount }) => {
+				resolve(deletedCount);
 			})
 			.catch(err => {
 				logger.error(err);
