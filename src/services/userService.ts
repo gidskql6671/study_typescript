@@ -7,15 +7,19 @@ interface IUserService {
 	updateUser: (IUser) => Promise<any>;
 }
 
+interface checkFunc {
+	(value: any): Promise<boolean>;
+}
+
 class UserService implements IUserService {
-	private idExists = (id) => {
+	private idExists: checkFunc = (id) => {
 		return new Promise((resolve, reject) => {
 			User.exists({id})
 			.then(result => resolve(result))
 			.catch(err => reject(err));
 		})
 	}
-	private nicknameExists = (nickname) => {
+	private nicknameExists: checkFunc = (nickname) => {
 		return new Promise((resolve, reject) => {
 			User.exists({nickname})
 			.then(result => resolve(result))
@@ -30,22 +34,34 @@ class UserService implements IUserService {
 			this.idExists(user.id)
 			.then(exists => {
 				if (exists)
-					return reject("idExists");
+					throw new Error('idExists');
 				return this.nicknameExists(user.nickname);
 			})
 			.then(exists => {
 				if (exists)
-					return reject("nicknameExists");
+				throw new Error('nicknameExists');
 				return user.save();
 			})
 			.then(user => resolve(user))
 			.catch(err => reject(err));
-		})
+		});
+	}
+
+	public deleteUser = ( user_info ) => {
+		return new Promise((resolve, reject) => {
+			
+		});
+	}
+
+	public updateUser = ( user_info ) => {
+		return new Promise((resolve, reject) => {
+
+		});
 	}
 }
 
 
-const userService = new userService();
+const userService = new UserService();
 
 
 export default userService;
