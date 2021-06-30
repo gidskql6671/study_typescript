@@ -1,6 +1,7 @@
 <h3 class="box-content">
 	유저 창
 </h3>
+<% if (isAuthenticated) { %>
 <div style="margin-bottom: 15px">
 	<p>
 		닉네임 : <%= currentUser.name %>
@@ -22,6 +23,11 @@
 		회원 탈퇴
 	</button>
 </form>
+<% } else { %>
+<button onClick="location.href='/user/login'" class="btn">
+	로그인
+</button>
+<% } %>
 <button onClick="location.href='/'" class="btn">
 	홈으로 가기
 </button>
