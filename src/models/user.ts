@@ -6,10 +6,10 @@ import { moment } from '../configs';
 interface IUser {
 	id: string;
 	password: string;
-	name: string;
+	name?: string;
 	nickname: string;
-	email: string;
-	reg_dt: string;
+	email?: string;
+	reg_dt?: string;
 }
 
 interface IUserDoc extends IUser, Document {
