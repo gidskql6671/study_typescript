@@ -22,7 +22,7 @@ class logger_base {
 	public static readonly LOG_DIR: string = 'logs';
 	public static readonly PRJ_ROOT_PATH: string = path.join(__dirname, '..');
 	// 파일 이름만 출력할 경우 false, 경로까지 출력할 경우 true
-	public static readonly USE_RELATIVE_PATH: boolean = false;
+	public static readonly USE_RELATIVE_PATH: boolean = true;
 	
 	
 	private readonly writer: winston.Logger;
